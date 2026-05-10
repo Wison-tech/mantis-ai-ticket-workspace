@@ -1,0 +1,18 @@
+# frontend/Dockerfile
+# Imagen ligera de Node para un build eficiente
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Instalamos dependencias primero para optimizar la caché de Docker
+COPY package*.json ./
+RUN npm install
+
+# Copiamos el código fuente
+COPY . .
+
+# Exponemos el puerto por defecto de Vite (5173)
+EXPOSE 5173
+
+# Iniciamos en modo desarrollo con --host para permitir conexiones externas al contenedor
+CMD ["npm", "run", "dev", "--", "--host"]
